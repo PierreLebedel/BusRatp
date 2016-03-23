@@ -13,9 +13,9 @@ class BusRatp{
 
 	static $base_url = 'http://wap.ratp.fr/siv/schedule?';
 
-	public function __construct(){
+	public function __construct($default_line='39'){
 		$this->type = 'bus';
-		$this->line = $this->getLine();
+		$this->line = $this->getLine($default_line);
 		$this->stop = $this->getStop();
 
 		$this->getStops();
@@ -187,13 +187,13 @@ class BusRatp{
 		</div>';
 	}
 
-	public function getLine(){
+	public function getLine($default_line){
 		if( isset($_GET['line']) ){
 			return $_GET['line'];
 		}else if( $cookie=self::cookie('line') ){
 			return $cookie;
 		}else{
-			return '39';
+			return $default_line;
 		}
 	}
 

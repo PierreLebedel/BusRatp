@@ -53,7 +53,7 @@ $BusRatp = new BusRatp();
 			</div>
 		<?php endforeach; ?>
 
-		<pre><?php //print_r($BusRatp); ?></pre>
+		<pre><?php print_r($BusRatp); ?></pre>
 	</div>
 	<?php endif; ?>
 
