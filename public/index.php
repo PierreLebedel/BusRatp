@@ -59,7 +59,7 @@ $BusRatp = new BusRatp();
 
 	<footer id="footer">
 		<p>BusRATP - <?php echo date('Y'); ?> - <a href="http://www.pierros.fr" target="_blank">Pierre Lebedel</a></p>
-		<p>Merci à <a href="https://github.com/mathemagie/arret_demande" target="_blank">Aurélien Fache</a> pour l'info sur le WAP de la RATP</p>
+		<p>Sources sur <a href="https://github.com/PierreLebedel/BusRatp" target="_blank">Github</a></p>
 	</footer>
 	
 	<script src="assets/js/app.js" type="text/javascript"></script>
