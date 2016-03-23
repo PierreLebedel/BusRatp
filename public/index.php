@@ -11,6 +11,47 @@ $BusRatp = new BusRatp();
 	<title>BusRATP : Les horaires en temps réel à votre station !</title>
 	<meta name="viewport" content="width=420, user-scalable=no">
 
+	<link rel="icon" href="favicon.ico" />
+	<meta name="description" content="Les horaires des bus RATP en temps réel à votre station !" />
+	<link rel="canonical" href="http://busratp.pierros.fr" />
+	
+	<meta property="og:locale" content="fr_FR" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="BusRATP : Horaires en temps réel" />
+	<meta property="og:description" content="Les horaires des bus RATP en temps réel à votre station !" />
+	<meta property="og:url" content="http://busratp.pierros.fr" />
+	<meta property="og:site_name" content="BusRATP" />
+	<meta property="og:image" content="assets/img/share.png" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:description" content="Les horaires des bus RATP en temps réel à votre station !" />
+	<meta name="twitter:title" content="BusRATP" />
+	<meta name="twitter:image" content="assets/img/share.png" />
+
+	<link rel="apple-touch-icon" sizes="57x57" href="assets/img/apple-touch-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="assets/img/apple-touch-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="assets/img/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-touch-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="assets/img/apple-touch-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="assets/img/apple-touch-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="assets/img/apple-touch-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="assets/img/apple-touch-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon-180x180.png">
+	
+	<link rel="icon" type="image/png" href="assets/img/android-chrome-192x192.png" sizes="192x192">
+	<link rel="icon" type="image/png" href="assets/img/favicon-96x96.png" sizes="96x96">
+	<link rel="icon" type="image/png" href="assets/img/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="assets/img/favicon-16x16.png" sizes="16x16">
+
+	<link rel="manifest" href="assets/img/manifest.json">
+	<link rel="mask-icon" href="assets/img/safari-pinned-tab.svg" color="#00b8a9">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+	<meta name="msapplication-TileColor" content="#00b8a9">
+	<meta name="msapplication-TileImage" content="assets/img/mstile-144x144.png">
+	<meta name="msapplication-config" content="assets/img/browserconfig.xml">
+	<meta name="theme-color" content="#00b8a9">
+
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="assets/css/app.css">
 </head>
