@@ -9,7 +9,7 @@ $BusRatp = new BusRatp();
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>BusRATP : Les horaires en temps réel à votre station !</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<meta name="viewport" content="width=420, user-scalable=no">
 
 	<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="assets/css/app.css">
@@ -25,7 +25,7 @@ $BusRatp = new BusRatp();
 		<!--select name="line" onchange="this.form.submit();">
 			<option value="B39" <?php echo ($BusRatp->line=='B39') ? 'selected' : ''; ?>>39</option>
 		</select-->
-		<input type="text" name="line" value="<?php echo $BusRatp->line; ?>" onblur="this.form.submit();">
+		<input type="text" name="line" value="<?php echo $BusRatp->line; ?>" onblur="this.form.submit();" autocomplete="off">
 		
 		<?php if(isset($BusRatp->directions)): ?>
 		<select name="stop" onchange="this.form.submit();">
@@ -58,7 +58,7 @@ $BusRatp = new BusRatp();
 	<?php endif; ?>
 
 	<footer id="footer">
-		<p>BusRATP - <?php echo date('Y'); ?> - Pierre Lebedel</p>
+		<p>BusRATP - <?php echo date('Y'); ?> - <a href="http://www.pierros.fr" target="_blank">Pierre Lebedel</a></p>
 		<p>Merci à <a href="https://github.com/mathemagie/arret_demande" target="_blank">Aurélien Fache</a> pour l'info sur le WAP de la RATP</p>
 	</footer>
 	

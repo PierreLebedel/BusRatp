@@ -54,6 +54,7 @@ body{
 		padding:0 10px;
 		background:$blanc;
 		color:$bleu;
+		max-width:290px;
 	}
 	button{
 		padding:0 10px;
@@ -100,7 +101,7 @@ body{
 	}
 }
 
-$footer_height: 100px;
+$footer_height: 66px;
 #footer{
 	background:$bleu;
 	color:$blanc;
