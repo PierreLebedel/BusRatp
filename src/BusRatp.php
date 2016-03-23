@@ -82,7 +82,7 @@ class BusRatp{
 		if($v){
 			setcookie($k, $v, time()+(3600*24*360), "/");
 		}else{
-			return $_COOKIE['stop'];;
+			return $_COOKIE[$k];
 		}
 	}
 
