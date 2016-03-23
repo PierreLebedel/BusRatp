@@ -25,10 +25,16 @@ $BusRatp = new BusRatp();
 		<!--select name="line" onchange="this.form.submit();">
 			<option value="B39" <?php echo ($BusRatp->line=='B39') ? 'selected' : ''; ?>>39</option>
 		</select-->
-		<input type="text" name="line" value="<?php echo $BusRatp->line; ?>" onblur="this.form.submit();" autocomplete="off">
 		
-		<?php if(isset($BusRatp->directions)): ?>
-		<select name="stop" onchange="this.form.submit();">
+		<select name="type" onchange="this.form.submit();">
+			<option value="bus" <?php echo ($BusRatp->type=='bus') ? 'selected' : ''; ?>>Bus</option>
+			<option value="noctilien" <?php echo ($BusRatp->type=='noctilien') ? 'selected' : ''; ?>>Noctilien</option>
+		</select>
+
+		<input type="number" name="line" value="<?php echo $BusRatp->line; ?>" onblur="this.form.submit();" autocomplete="off" step="1" min="1">
+
+		<?php if(!empty($BusRatp->directions)): ?>
+		<select name="stop" onchange="this.form.submit();" class="large">
 			<?php foreach($BusRatp->stops as $k=>$v): ?>
 			<option value="<?php echo $k; ?>" <?php echo ($BusRatp->stop==$k) ? 'selected' : ''; ?>><?php echo $v; ?></option>
 			<?php endforeach; ?>
@@ -36,10 +42,10 @@ $BusRatp = new BusRatp();
 		<?php endif; ?>
 	</form>
 	
-	<?php if(isset($BusRatp->directions)): ?>
+	<?php if(!empty($BusRatp->directions)): ?>
 	<div id="result">
 		
-		<h2><?php echo $BusRatp->type_display; ?> n°<?php echo $BusRatp->line_display; ?> -	<?php echo $BusRatp->stop_display; ?></h2>
+		<h2><?php echo $BusRatp->type_display; ?> <?php echo $BusRatp->line_display; ?> - <?php echo $BusRatp->stop_display; ?></h2>
 	
 		<?php foreach($BusRatp->directions as $direction): ?>
 			<div class="direction">
@@ -47,13 +53,17 @@ $BusRatp = new BusRatp();
 				<?php foreach($direction->stops as $stop): ?>
 					<div class="stop">
 						<?php echo $stop->terminus; ?>&nbsp;: 
-						<strong><?php echo $stop->timeout; ?></strong>
+						<strong><?php echo $stop->timeout; ?> minute<?php echo($stop->timeout>1)?'s':''; ?></strong>
 					</div>
 				<?php endforeach; ?>
 			</div>
 		<?php endforeach; ?>
 
 		<!--pre><?php print_r($BusRatp); ?></pre-->
+	</div>
+	<?php else: ?>
+	<div id="error">
+		<?php echo $BusRatp->error; ?>
 	</div>
 	<?php endif; ?>
 

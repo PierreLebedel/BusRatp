@@ -10,11 +10,12 @@ class BusRatp{
 	public $stop;
 	public $stop_display;
 	public $stops;
+	public $error;
 
 	static $base_url = 'http://wap.ratp.fr/siv/schedule?';
 
 	public function __construct($default_line='39'){
-		$this->type = 'bus';
+		$this->type = $this->getType();
 		$this->line = $this->getLine($default_line);
 		$this->stop = $this->getStop();
 
@@ -39,6 +40,7 @@ class BusRatp{
 		$html   = self::curlCall(self::$base_url.$params);
 		
 		if( $object = self::cleanRatpHtmlData($html) ){
+			self::cookie('type', $this->type);
 			self::cookie('line', $this->line);
 			self::cookie('stop', $this->stop);
 
@@ -46,6 +48,9 @@ class BusRatp{
 			$this->line_display = $object->line;
 			$this->stop_display = $object->stop;
 			$this->directions   = $object->directions;
+			$this->error        = (isset($object->error)) ? $object->error : '';
+		}else{
+			$this->error        = 'Données inaccessibles : veuillez vérifier le numéro de ligne.';
 		}
 	}
 
@@ -82,7 +87,7 @@ class BusRatp{
 		if($v){
 			setcookie($k, $v, time()+(3600*24*360), "/");
 		}else{
-			return $_COOKIE[$k];
+			return (isset($_COOKIE[$k])) ? $_COOKIE[$k] : false;
 		}
 	}
 
@@ -120,7 +125,10 @@ class BusRatp{
 		}
 		//self::debug($divs);
 
-		if( self::cleanRatpHtmlTag($divs[1])=='Saisir le numéro ou le nom de la ligne de Bus' ){
+		if( 
+			self::cleanRatpHtmlTag($divs[1])=='Saisir le numéro ou le nom de la ligne de Bus' ||
+			self::cleanRatpHtmlTag($divs[1])=='Saisir le numéro de la ligne de Noctilien' 
+		){
 			return false;
 		}
 
@@ -134,48 +142,58 @@ class BusRatp{
 			'type'      => self::cleanRatpHtmlTag($imgsAlt[0], ':'),
 			'line'      => self::cleanRatpHtmlTag($imgsAlt[1], array('[', ']')),
 			'stop'      => self::cleanRatpHtmlTag($divs[2], 'Arrêt'),
-
-			'directions' => array(
-				(object) array(
-					'direction' => self::cleanRatpHtmlTag($divs[6], 'Direction'),
-					'stops'     => array(
-						(object) array(
-							'terminus' => self::cleanRatpHtmlTag($divs[7], '&gt;'),
-							'timeout'  => self::cleanRatpHtmlTag($divs[8], ''),
-						),
-						(object) array(
-							'terminus' => self::cleanRatpHtmlTag($divs[9], '&gt;'),
-							'timeout'  => self::cleanRatpHtmlTag($divs[10], ''),
-						),
-					),
-				)
-			),
+			'directions' => array(),
 		);
 
-		if( count($divs)==35 ){
-			// bus dans les deux directions
+		
+		$indispo = (strstr($divs[7], 'INDISPO') || strstr($divs[5], 'pas disponibles')) ? true : false;
+		
+		if( !$indispo ){
 			$data['directions'][] = (object) array(
-				'direction' => self::cleanRatpHtmlTag($divs[12], 'Direction'),
+				'direction' => self::cleanRatpHtmlTag($divs[6], 'Direction'),
 				'stops'     => array(
 					(object) array(
-						'terminus' => self::cleanRatpHtmlTag($divs[13], '&gt;'),
-						'timeout'  => self::cleanRatpHtmlTag($divs[14], ''),
+						'terminus' => self::cleanRatpHtmlTag($divs[7], '!&gt;'),
+						'timeout'  => self::cleanRatpTimeout($divs[8]),
 					),
 					(object) array(
-						'terminus' => self::cleanRatpHtmlTag($divs[15], '&gt;'),
-						'timeout'  => self::cleanRatpHtmlTag($divs[16], ''),
+						'terminus' => self::cleanRatpHtmlTag($divs[9], '!&gt;'),
+						'timeout'  => self::cleanRatpTimeout($divs[10]),
 					),
 				),
 			);
+			if( count($divs)==35 ){
+				// bus dans les deux directions
+				$data['directions'][] = (object) array(
+					'direction' => self::cleanRatpHtmlTag($divs[12], 'Direction'),
+					'stops'     => array(
+						(object) array(
+							'terminus' => self::cleanRatpHtmlTag($divs[13], '!&gt;'),
+							'timeout'  => self::cleanRatpTimeout($divs[14]),
+						),
+						(object) array(
+							'terminus' => self::cleanRatpHtmlTag($divs[15], '!&gt;'),
+							'timeout'  => self::cleanRatpTimeout($divs[16]),
+						),
+					),
+				);
+			}
+		}else{
+			$data['directions'] = false;
+			$data['error'] = "Informations indisponibles pour le moment";
 		}
 
 		//self::debug($data);
 		return (object) $data;
 	}
 
-	public static function cleanRatpHtmlTag($tag, $replace=''){
+	public static function cleanRatpTimeout($value){
+		return (int) self::cleanRatpHtmlTag($value, array('mn', "A l'arret", "A l'approche"), array('','0'));
+	}
+
+	public static function cleanRatpHtmlTag($tag, $replace='', $by=''){
 		$tag = strip_tags($tag);
-		$tag = str_replace($replace, '', $tag);
+		$tag = str_replace($replace, $by, $tag);
 		$tag = trim($tag);
 		return $tag;
 	}
@@ -185,6 +203,16 @@ class BusRatp{
 			if($info) echo '<h3 style="color:#8E0E12; font-size:16px; padding:5px 0;">'.$info.'</h3>';
 			echo '<pre style="white-space:pre-wrap;">'.print_r($var,true).'</pre>
 		</div>';
+	}
+
+	public function getType($default_type='bus'){
+		if( isset($_GET['type']) ){
+			return $_GET['type'];
+		}else if( $cookie=self::cookie('type') ){
+			return $cookie;
+		}else{
+			return $default_type='bus';
+		}
 	}
 
 	public function getLine($default_line){
