@@ -16,15 +16,23 @@ $blanc:#fff;
 body{
 	background:$light;
 	color:$bleu;
+	min-width:420px;	// viewport // @todo
 }
 
 #header{
 	background:$vert;
 	color:$blanc;
-
+	overflow:hidden;
+	
+	svg{
+		display:block;
+		float:left;
+		height:36px;
+		margin:17px 10px 0 20px;
+		width:auto;
+	}
 	h1{
 		display:block;
-		margin:0 20px;
 		font-weight:normal;
 		font-size:36px;
 		line-height:70px;
