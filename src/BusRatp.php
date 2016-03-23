@@ -76,7 +76,7 @@ class BusRatp{
 				$args = explode('&', $infos['query']);
 				if( isset($args[3]) ){
 					$k = str_replace('stationid=', '', $args[3]);
-		    		$stops[$k] = strip_tags($dom->saveHTML($node));
+		    		$stops[$k] = self::cleanRatpHtmlTag($dom->saveHTML($node));
 				}
 			}
 		}
@@ -124,6 +124,7 @@ class BusRatp{
     		$divs[] = $dom->saveHTML($node);
 		}
 		//self::debug($divs);
+		//self::debug(count($divs));
 
 		if( 
 			self::cleanRatpHtmlTag($divs[1])=='Saisir le numéro ou le nom de la ligne de Bus' ||
@@ -162,7 +163,7 @@ class BusRatp{
 					),
 				),
 			);
-			if( count($divs)==35 ){
+			if( strstr($divs[12], 'Direction') ){
 				// bus dans les deux directions
 				$data['directions'][] = (object) array(
 					'direction' => self::cleanRatpHtmlTag($divs[12], 'Direction'),

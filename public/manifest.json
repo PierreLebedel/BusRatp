@@ -39,5 +39,6 @@
 		}
 	],
 	"start_url": "http:\/\/busratp.pierros.fr",
-	"display": "standalone"
+	"display": "standalone",
+	"orientation": "portrait"
 }
