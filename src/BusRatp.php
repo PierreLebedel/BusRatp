@@ -76,7 +76,7 @@ class BusRatp{
 				$args = explode('&', $infos['query']);
 				if( isset($args[3]) ){
 					$k = str_replace('stationid=', '', $args[3]);
-		    		$stops[$k] = self::cleanRatpHtmlTag($dom->saveHTML($node));
+		    		$stops[$k] = self::cleanRatpHtmlTag($node->nodeValue);
 				}
 			}
 		}
@@ -95,7 +95,8 @@ class BusRatp{
 		$options = array(
 			CURLOPT_CUSTOMREQUEST  => "GET",
 			CURLOPT_POST           => false,
-			CURLOPT_USERAGENT      => $_SERVER['HTTP_USER_AGENT'],
+			//CURLOPT_USERAGENT      => $_SERVER['HTTP_USER_AGENT'],
+			CURLOPT_USERAGENT      => "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:44.0) Gecko/20100101 Firefox/44.0",
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_HEADER         => false,
 			CURLOPT_FOLLOWLOCATION => true,
