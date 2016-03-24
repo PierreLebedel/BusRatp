@@ -65,6 +65,10 @@ body{
 		margin-right:10px;
 		margin-top:10px;
 		color:$bleu;
+
+		&:disabled{
+			@include opacity(0.5);
+		}
 	}
 	input{
 		width:185px;

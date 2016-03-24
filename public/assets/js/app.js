@@ -7,6 +7,7 @@ var $stop = $('#select_stop');
 var $refresh = $('#refresh');
 
 $type.change(function(){
+	$line.attr('disabled', true);
 	$stop.attr('disabled', true);
 	$('body').addClass('loading');
 	$form.submit();
