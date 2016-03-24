@@ -28,6 +28,8 @@ body{
 	max-width:400px;
 }
 
+$loader_height: 3px;
+
 #header{
 	background:$vert;
 	color:$blanc;
@@ -35,6 +37,7 @@ body{
 	position:relative;
 	@include box-shadow(0 0 10px 0 rgba(0,0,0,0.6));
 	z-index:3;
+	border-bottom:$loader_height solid lighten($vert, 7%);
 	
 	svg{
 		display:block;
@@ -58,12 +61,12 @@ body{
 	}
 	#loader{
 		display:block;
-		height:3px;
+		height:$loader_height;
 		position:absolute;
-		bottom:0;
+		bottom:-$loader_height;
 		left:0;
 		width:10px;
-		background:darken($vert, 8%);
+		background:darken($vert, 10%);
 	}
 }
 
@@ -142,7 +145,7 @@ body{
 		color:$bleu;
 		@include border-radius(2px);
 		overflow:hidden;
-		border-top:2px solid #eee;
+		border-top:1px solid #ddd;
 		padding-top:8px;
 		padding-bottom:5px;
 
@@ -183,6 +186,9 @@ a#refresh{
 	@include border-radius(2px);
 	overflow:hidden;
 	font-weight:bold;
+	border:1px solid lighten($vert, 5%);
+	border-right-color:darken($vert, 5%);
+	border-bottom-color:darken($vert, 5%);
 }
 
 body.loading{
