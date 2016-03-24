@@ -7,6 +7,17 @@ var loadBusRatp = function(ajaxUrl, callback){
 	});
 }
 
+
+var isWindowActive;
+window.onfocus = function(){ 
+	isWindowActive = true; 
+}; 
+
+window.onblur = function(){ 
+	isWindowActive = false; 
+}; 
+
+
 var autoTimeout = false;
 var autoTimeoutEven = false;
 var autoTimeoutDuration = 20000;
@@ -15,7 +26,11 @@ var $loader = $('#loader');
 
 var autorefreshBusRatp = function(){
 	autoTimeout = setTimeout(function(){
-		loadBusRatp(false, autorefreshBusRatp);
+		if(isWindowActive){
+			loadBusRatp(false, autorefreshBusRatp);
+		}else{
+			autorefreshBusRatp();
+		}
 	}, autoTimeoutDuration);
 
 	if(autoTimeoutEven){
