@@ -8,10 +8,29 @@ var loadBusRatp = function(ajaxUrl, callback){
 }
 
 var autoTimeout = false;
+var autoTimeoutEven = false;
+var autoTimeoutDuration = 20000;
+
+var $loader = $('#loader');
+
 var autorefreshBusRatp = function(){
 	autoTimeout = setTimeout(function(){
 		loadBusRatp(false, autorefreshBusRatp);
-	}, 20000);
+	}, autoTimeoutDuration);
+
+	if(autoTimeoutEven){
+		autoTimeoutEven = false;
+		$loader.css({left:'auto', right:0});
+		$loader.animate({
+			width:'0%'
+		}, autoTimeoutDuration, 'linear');
+	}else{
+		autoTimeoutEven = true;
+		$loader.css({left:0, right:'auto'});
+		$loader.animate({
+			width:'100%'
+		}, autoTimeoutDuration, 'linear');
+	}
 }
 autorefreshBusRatp();
 

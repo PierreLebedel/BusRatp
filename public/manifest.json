@@ -38,7 +38,7 @@
 			"density": 4
 		}
 	],
-	"start_url": "http:\/\/busratp.pierros.fr",
+	"start_url": "http:\/\/busratp.pierros.fr/",
 	"display": "standalone",
 	"orientation": "portrait"
 }
