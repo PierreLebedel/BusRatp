@@ -39,7 +39,8 @@ $stop.change(function(){
 $refresh.click(function(e){
 	e.preventDefault();
 	$('body').addClass('loading');
-	window.location.reload();
+	//window.location.reload();
+	$form.submit();
 });
 
 

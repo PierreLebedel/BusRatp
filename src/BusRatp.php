@@ -28,6 +28,14 @@ class BusRatp{
 			$this->stop = key($this->stops);
 			$this->getData();
 		}
+
+		$this->getStopInfos();
+	}
+
+	public function getStopInfos(){
+		/*$data_json = self::curlCall("http://data.ratp.fr/api/records/1.0/search/?dataset=positions-geographiques-des-stations-du-reseau-ratp&lang=fr&rows=10&q=".$this->stop_display);
+		$data = json_decode($data_json);
+		self::debug($data);*/
 	}
 
 	public function getData(){
@@ -135,50 +143,75 @@ class BusRatp{
 			'directions' => array(),
 		);
 
-		
-		$indispo = (strstr($divs[7], 'INDISPO') || strstr($divs[5], 'pas disponibles')) ? true : false;
+
+		$error = '';
+		$indispo = false;
+
+		if(strstr($divs[7], 'INDISPO') || strstr($divs[5], 'pas disponibles')){
+			$error = "Informations indisponibles pour le moment";
+			$indispo = true;
+		}
 		
 		if( !$indispo ){
-			$data['directions'][] = (object) array(
-				'direction' => self::cleanRatpHtmlTag($divs[6], 'Direction'),
-				'stops'     => array(
-					(object) array(
-						'terminus' => self::cleanRatpHtmlTag($divs[7], '!&gt;'),
-						'timeout'  => self::cleanRatpTimeout($divs[8]),
-					),
-					(object) array(
-						'terminus' => self::cleanRatpHtmlTag($divs[9], '!&gt;'),
-						'timeout'  => self::cleanRatpTimeout($divs[10]),
-					),
-				),
-			);
-			if( strstr($divs[12], 'Direction') ){
-				// bus dans les deux directions
-				$data['directions'][] = (object) array(
-					'direction' => self::cleanRatpHtmlTag($divs[12], 'Direction'),
-					'stops'     => array(
-						(object) array(
-							'terminus' => self::cleanRatpHtmlTag($divs[13], '!&gt;'),
-							'timeout'  => self::cleanRatpTimeout($divs[14]),
-						),
-						(object) array(
-							'terminus' => self::cleanRatpHtmlTag($divs[15], '!&gt;'),
-							'timeout'  => self::cleanRatpTimeout($divs[16]),
-						),
-					),
-				);
+
+			$direction1 = self::cleanRatpHtmlDataDirection($divs, 6);
+			$data['directions'][] = $direction1;
+
+			$direction2index = ($direction1->statut=='deviation') ? 10 : 12;
+			if($direction2 = self::cleanRatpHtmlDataDirection($divs, $direction2index)){
+				$data['directions'][] = $direction2;
 			}
+
 		}else{
 			$data['directions'] = false;
-			$data['error'] = "Informations indisponibles pour le moment";
+			$data['error'] = $error;
 		}
 
 		//self::debug($data);
 		return (object) $data;
 	}
 
+	public static function cleanRatpHtmlDataDirection($divs, $firstIndex){
+		$direction = array();
+		
+		if( strstr($divs[$firstIndex], 'Direction') ){
+			$direction['statut'] = 'ok';
+			$direction['direction'] = self::cleanRatpHtmlTag($divs[$firstIndex], 'Direction');
+			
+			if( strstr($divs[$firstIndex+1], 'DEVIATION') ){
+				//$direction2FirstIndex = 10;
+				$direction['statut'] = 'deviation';
+				$direction['stops'] = array(
+					(object) array(
+						'terminus' => "Déviation",
+						'timeout'  => "Arrêt non desservi",
+					)
+				);
+			}else{
+				$direction['stops'] = array();
+				$direction['stops'][] = (object) array(
+					'terminus' => self::cleanRatpHtmlTag($divs[$firstIndex+1], ''),
+					'timeout'  => self::cleanRatpTimeout($divs[$firstIndex+2]),
+				);
+
+				if( !strstr($divs[$firstIndex+3], 'BUS SUIVANT DEVIE') ){
+					$direction['stops'][] = (object) array(
+						'terminus' => self::cleanRatpHtmlTag($divs[$firstIndex+3], ''),
+						'timeout'  => self::cleanRatpTimeout($divs[$firstIndex+4]),
+					);
+				}
+			}
+		}
+			
+		return (!empty($direction)) ? (object) $direction : false;
+	}
+
 	public static function cleanRatpTimeout($value){
-		return (int) self::cleanRatpHtmlTag($value, array('mn', "A l'arret", "A l'approche"), array('','0'));
+		$number = self::cleanRatpHtmlTag($value, array('mn', "A l'arret", "A l'approche"), array('','0','0'));
+		if( is_numeric($number) ){
+			return $number.' minute'.(($number>1)?'s':'');
+		}
+		return $number;
 	}
 
 	public static function cleanRatpHtmlTag($tag, $replace='', $by=''){

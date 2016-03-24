@@ -39,7 +39,7 @@ $BusRatp = new BusRatp($type, $line, $stop);
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>BusRATP : Les horaires en temps réel à votre station !</title>
-	<meta name="viewport" content="width=420, user-scalable=no">
+	<meta name="viewport" content="width=device-width, initial-slace=1.0, user-scalable=no">
 
 	<link rel="icon" href="favicon.ico" />
 	<meta name="description" content="Les horaires des bus RATP en temps réel à votre station !" />
@@ -92,8 +92,6 @@ $BusRatp = new BusRatp($type, $line, $stop);
 		<svg id="icon_bus" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 45.437 45.437" style="enable-background:new 0 0 45.437 45.437;" xml:space="preserve">
 			<path d="M41.403,11.11c-0.371-3.627-0.962-6.451-1.897-7.561c-3.855-4.564-30.859-4.898-33.925,0   c-0.75,1.2-1.276,4.014-1.629,7.567c-1.139,0.134-2.026,1.093-2.026,2.267v4.443c0,0.988,0.626,1.821,1.5,2.146 c-0.207,6.998-0.039,14.299,0.271,17.93c0,2.803,1.883,2.338,1.883,2.338h1.765v3.026c0,1.2,1.237,2.171,2.761,2.171 c1.526,0,2.763-0.971,2.763-2.171V40.24h20.534v3.026c0,1.2,1.236,2.171,2.762,2.171c1.524,0,2.761-0.971,2.761-2.171V40.24h0.58 c0,0,2.216,0.304,2.358-1.016c0-3.621,0.228-11.646,0.04-19.221c0.929-0.291,1.607-1.147,1.607-2.177v-4.443   C43.512,12.181,42.582,11.206,41.403,11.11z M12.176,4.2h20.735v3.137H12.176V4.2z M12.472,36.667c-1.628,0-2.947-1.32-2.947-2.948   c0-1.627,1.319-2.946,2.947-2.946s2.948,1.319,2.948,2.946C15.42,35.347,14.101,36.667,12.472,36.667z M32.8,36.667 c-1.627,0-2.949-1.32-2.949-2.948c0-1.627,1.321-2.946,2.949-2.946s2.947,1.319,2.947,2.946   C35.748,35.347,34.428,36.667,32.8,36.667z M36.547,23.767H8.54V9.077h28.007V23.767z" fill="#FFFFFF"/>
 		</svg>
-		<h1><b>Bus</b>RATP</h1>
-
 		<svg id="icon_man" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
 			<ellipse fill="#FFFFFF" cx="167.974" cy="57.465" rx="58.001" ry="57.465"/>
 			<path fill="#FFFFFF" d="M49.364,166.832c8.041-9.395,22.254-10.551,31.745-2.58c10.591,8.907,31.124,11.563,49.918,6.479 c15.255-4.13,26.426-12.531,29.919-22.479c0.307-0.898,0.696-1.755,1.118-2.583c3.907-12.204,13.169-22.64,23.347-29.209
@@ -112,6 +110,8 @@ $BusRatp = new BusRatp($type, $line, $stop);
 			c-0.468-0.438-1.209-0.414-1.647,0.05l-0.849,0.901c-0.977,8.861-7.268,16.652-16.468,19.13c-0.666,0.18-1.342,0.278-2.008,0.401
 			l-0.426,0.447l-2.542,2.686C347.478,233.047,347.499,233.781,347.979,234.212z"/>
 		</svg>
+
+		<h1><b>Bus</b>RATP</h1>
 	</header>
 
 	<form id="form" action="" method="get">
@@ -135,7 +135,7 @@ $BusRatp = new BusRatp($type, $line, $stop);
 	<?php if(!empty($BusRatp->directions)): ?>
 	<div id="result">
 		
-		<h2><?php echo $BusRatp->type_display; ?> <?php echo $BusRatp->line_display; ?> - <?php echo $BusRatp->stop_display; ?></h2>
+		<h2><b><?php echo $BusRatp->type_display; ?> <?php echo $BusRatp->line_display; ?></b> - <?php echo $BusRatp->stop_display; ?></h2>
 	
 		<?php foreach($BusRatp->directions as $direction): ?>
 			<div class="direction">
@@ -143,7 +143,7 @@ $BusRatp = new BusRatp($type, $line, $stop);
 				<?php foreach($direction->stops as $stop): ?>
 					<div class="stop">
 						<?php echo $stop->terminus; ?>&nbsp;: 
-						<strong><?php echo $stop->timeout; ?> minute<?php echo($stop->timeout>1)?'s':''; ?></strong>
+						<strong><?php echo $stop->timeout; ?></strong>
 					</div>
 				<?php endforeach; ?>
 			</div>

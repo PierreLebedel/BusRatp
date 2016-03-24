@@ -16,7 +16,6 @@ $blanc:#fff;
 body{
 	background:$light;
 	color:$bleu;
-	min-width:420px;	// viewport // @todo
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
@@ -24,54 +23,54 @@ body{
 	background:$vert;
 	color:$blanc;
 	overflow:hidden;
-	height:70px;
+	height:60px;
 	
-	svg#icon_bus{
+	svg{
 		display:block;
-		float:left;
 		height:36px;
-		margin:17px 10px 0 20px;
 		width:auto;
+
+		&#icon_bus{
+			float:left;
+			margin:12px 10px 0 20px;
+		}
+		&#icon_man{
+			float:right;
+			margin:12px 20px 0 0;
+		}
 	}
 	h1{
 		display:block;
 		font-weight:normal;
-		font-size:36px;
-		line-height:70px;
-		float:left;
-	}
-	svg#icon_man{
-		display:block;
-		float:right;
-		height:36px;
-		margin:17px 20px 0 0;
-		width:auto;
+		font-size:32px;
+		line-height:60px;
+		text-align:center;
 	}
 }
 
 #form{
 	background:$bleu;
 	color:$blanc;
-	padding:5px 5px 15px 20px;
+	padding:10px 20px 0 20px;
 	@include clearfix();
 	
 	input, select, button{
 		display:block;
 		float:left;
-		height:40px;
-		line-height:40px;
+		height:30px;
+		line-height:30px;
 		border:none;
-		font-size:22px;
-		margin-right:10px;
-		margin-top:10px;
+		font-size:17px;
+		margin-bottom:10px;
 		color:$bleu;
+		width:48%;
+		@include border-radius(2px);
 
 		&:disabled{
 			@include opacity(0.5);
 		}
 	}
 	input{
-		width:185px;
 		text-align:center;
 		@include appearance(textfield);
 
@@ -84,10 +83,11 @@ body{
 	select{
 		padding:0 10px;
 		background:$blanc;
-		width:185px;
+		margin-right:4%;
 
 		&.large{
-			width:380px;
+			width:100%;
+			margin-right:0;
 		}
 	}
 	button{
@@ -101,8 +101,8 @@ body{
 
 #result{
 	background:$blanc;
-	margin:20px 20px;
-	padding-bottom:20px;
+	margin:10px 20px;
+	padding-bottom:10px;
 	@include border-radius(2px);
 	overflow:hidden;
 	@include box-shadow(0 0 15px 0 rgba(0,0,0,0.2));
@@ -112,26 +112,25 @@ body{
 		color:$blanc;
 		text-align:center;
 		font-weight:normal;
-		font-size:22px;
-		line-height:30px;
-		padding:10px 20px;
+		font-size:18px;
+		line-height:24px;
+		padding:10px 15px;
 	}
 	.direction{
 		background:#eee;
-		margin:20px 20px 0;
-		padding:15px;
+		margin:10px 10px 0;
+		padding:5px 10px;
 		color:$bleu;
 		@include border-radius(2px);
 		overflow:hidden;
 
 		h3{
-			font-size:22px;
-			line-height:30px;
-			padding-bottom:5px;
+			font-size:18px;
+			line-height:32px;
 		}
 		.stop{
-			font-size:18px;
-			line-height:28px;
+			font-size:14px;
+			line-height:24px;
 		}
 	}
 }
@@ -139,8 +138,8 @@ body{
 #error{
 	text-align:center;
 	color:$bleu;
-	padding:20px 20px;
-	font-size:18px;
+	padding:10px 20px;
+	font-size:17px;
 	line-height:24px;
 }
 
@@ -149,12 +148,13 @@ a#refresh{
 	background:$vert;
 	color:$blanc;
 	text-align:center;
-	font-size:22px;
-	line-height:50px;
-	margin:0 20px 58px;
+	font-size:18px;
+	line-height:40px;
+	margin:0 20px 48px;
 	text-decoration:none;
 	@include border-radius(2px);
 	overflow:hidden;
+	font-weight:bold;
 }
 
 body.loading{
