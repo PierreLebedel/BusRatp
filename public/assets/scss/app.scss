@@ -24,8 +24,9 @@ body{
 	background:$vert;
 	color:$blanc;
 	overflow:hidden;
+	height:70px;
 	
-	svg{
+	svg#icon_bus{
 		display:block;
 		float:left;
 		height:36px;
@@ -37,6 +38,14 @@ body{
 		font-weight:normal;
 		font-size:36px;
 		line-height:70px;
+		float:left;
+	}
+	svg#icon_man{
+		display:block;
+		float:right;
+		height:36px;
+		margin:17px 20px 0 0;
+		width:auto;
 	}
 }
 
