@@ -12,14 +12,22 @@ $type.change(function(){
 	$form.submit();
 });
 
+
+var previousLine = '';
+
 $line.focus(function(){
-	$(this).val('');
+	previousLine = $line.val();
+	$line.val('');
 });
 
 $line.blur(function(){
-	$stop.attr('disabled', true);
-	$('body').addClass('loading');
-	$form.submit();
+	if( $line.val()=='' ){
+		$line.val(previousLine);
+	}else{
+		$stop.attr('disabled', true);
+		$('body').addClass('loading');
+		$form.submit();
+	}
 });
 
 $stop.change(function(){

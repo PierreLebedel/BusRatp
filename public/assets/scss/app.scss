@@ -140,6 +140,8 @@ a#refresh{
 	line-height:50px;
 	margin:0 20px 58px;
 	text-decoration:none;
+	@include border-radius(2px);
+	overflow:hidden;
 }
 
 body.loading{

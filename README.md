@@ -11,8 +11,8 @@ Usage :
 require_once('BusRatp.php');
 
 $type = 'bus'; // bus/noctilien
-$line = '39';  // line_num
-$stop = false; // false/stop_id
+$line = '39';  // $line_num
+$stop = false; // false/$stop_id
 
 $BusRatp = new BusRatp($type, $line, $stop);
 print_r($BusRatp);
