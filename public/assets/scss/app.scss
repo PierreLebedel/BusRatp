@@ -17,6 +17,7 @@ body{
 	background:$light;
 	color:$bleu;
 	min-width:420px;	// viewport // @todo
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 #header{
@@ -48,12 +49,13 @@ body{
 	input, select, button{
 		display:block;
 		float:left;
-		height:30px;
-		line-height:28px;
+		height:40px;
+		line-height:40px;
 		border:none;
-		font-size:18px;
+		font-size:22px;
 		margin-right:10px;
 		margin-top:10px;
+		color:$bleu;
 	}
 	input{
 		width:185px;
@@ -69,7 +71,6 @@ body{
 	select{
 		padding:0 10px;
 		background:$blanc;
-		color:$bleu;
 		width:185px;
 
 		&.large{
@@ -87,7 +88,7 @@ body{
 
 #result{
 	background:$blanc;
-	margin:20px 20px 58px;
+	margin:20px 20px;
 	padding-bottom:20px;
 	@include border-radius(2px);
 	overflow:hidden;
@@ -99,7 +100,8 @@ body{
 		text-align:center;
 		font-weight:normal;
 		font-size:22px;
-		line-height:50px;
+		line-height:30px;
+		padding:10px 20px;
 	}
 	.direction{
 		background:#eee;
@@ -124,9 +126,28 @@ body{
 #error{
 	text-align:center;
 	color:$bleu;
-	padding:20px 20px 58px;
+	padding:20px 20px;
 	font-size:18px;
-	line-height:28px;
+	line-height:24px;
+}
+
+a#refresh{
+	display:block;
+	background:$vert;
+	color:$blanc;
+	text-align:center;
+	font-size:22px;
+	line-height:50px;
+	margin:0 20px 58px;
+	text-decoration:none;
+}
+
+body.loading{
+	#result,
+	#error,
+	#refresh{
+		@include opacity(0.5);
+	}
 }
 
 #footer{

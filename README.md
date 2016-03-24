@@ -9,7 +9,8 @@ Usage :
 ```php
 <?php
 require_once('BusRatp.php');
-$BusRatp = new BusRatp();
+$BusRatp = new BusRatp('bus', '39'); // Pas d'arrêt spécifié
+// $BusRatp = new BusRatp('bus', '39', '39_16'); // Arrêt spécifié
 print_r($BusRatp);
 ```
 
