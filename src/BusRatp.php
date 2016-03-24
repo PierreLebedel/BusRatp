@@ -14,10 +14,10 @@ class BusRatp{
 
 	static $base_url = 'http://wap.ratp.fr/siv/schedule?';
 
-	public function __construct($default_line='39'){
-		$this->type = $this->getType();
-		$this->line = $this->getLine($default_line);
-		$this->stop = $this->getStop();
+	public function __construct($type="bus", $line="39", $stop=false){
+		$this->type = $type;
+		$this->line = $line;
+		$this->stop = $stop;
 
 		$this->getStops();
 
@@ -40,10 +40,6 @@ class BusRatp{
 		$html   = self::curlCall(self::$base_url.$params);
 		
 		if( $object = self::cleanRatpHtmlData($html) ){
-			self::cookie('type', $this->type);
-			self::cookie('line', $this->line);
-			self::cookie('stop', $this->stop);
-
 			$this->type_display = $object->type;
 			$this->line_display = $object->line;
 			$this->stop_display = $object->stop;
@@ -81,14 +77,6 @@ class BusRatp{
 			}
 		}
 		return $stops;
-	}
-
-	public static function cookie($k, $v=false){
-		if($v){
-			setcookie($k, $v, time()+(3600*24*360), "/");
-		}else{
-			return (isset($_COOKIE[$k])) ? $_COOKIE[$k] : false;
-		}
 	}
 
 	public static function curlCall($url){
@@ -203,36 +191,6 @@ class BusRatp{
 			if($info) echo '<h3 style="color:#8E0E12; font-size:16px; padding:5px 0;">'.$info.'</h3>';
 			echo '<pre style="white-space:pre-wrap;">'.print_r($var,true).'</pre>
 		</div>';
-	}
-
-	public function getType($default_type='bus'){
-		if( isset($_GET['type']) ){
-			return $_GET['type'];
-		}else if( $cookie=self::cookie('type') ){
-			return $cookie;
-		}else{
-			return $default_type='bus';
-		}
-	}
-
-	public function getLine($default_line){
-		if( isset($_GET['line']) ){
-			return $_GET['line'];
-		}else if( $cookie=self::cookie('line') ){
-			return $cookie;
-		}else{
-			return $default_line;
-		}
-	}
-
-	public function getStop(){
-		if( isset($_GET['stop']) ){
-			return $_GET['stop'];
-		}else if( $cookie=self::cookie('stop') ){
-			return $cookie;
-		}else{
-			return false;
-		}
 	}
 
 }

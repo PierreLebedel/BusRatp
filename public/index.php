@@ -1,7 +1,37 @@
 <?php
 
 require_once('../src/BusRatp.php');
-$BusRatp = new BusRatp();
+
+if( isset($_GET['type']) ){
+	$type = $_GET['type'];
+	setcookie('type', $type, time()+(3600*24*360), "/");
+}else if( isset($_COOKIE['type']) ){
+	$type = $_COOKIE['type'];
+}else{
+	$type = 'bus';
+}
+
+if( isset($_GET['line']) ){
+	$line = $_GET['line'];
+	setcookie($type, $line, time()+(3600*24*360), "/");
+}else if( isset($_COOKIE[$type]) ){
+	$line = $_COOKIE[$type];
+}else{
+	$line = '39';
+}
+
+if( isset($_GET['stop']) ){
+	$stop = $_GET['stop'];
+	setcookie($type.'_'.$line, $stop, time()+(3600*24*360), "/");
+}else if( isset($_COOKIE[$type.'_'.$line]) ){
+	$stop = $_COOKIE[$type.'_'.$line];
+}else{
+	$stop = false;
+}
+
+$BusRatp = new BusRatp($type, $line, $stop);
+BusRatp::debug($_COOKIE);
+
 
 ?><!DOCTYPE html>
 <html>
@@ -70,15 +100,17 @@ $BusRatp = new BusRatp();
 			<option value="B39" <?php echo ($BusRatp->line=='B39') ? 'selected' : ''; ?>>39</option>
 		</select-->
 		
-		<select name="type" onchange="this.form.submit();">
+		<select id="select_type" name="type">
 			<option value="bus" <?php echo ($BusRatp->type=='bus') ? 'selected' : ''; ?>>Bus</option>
 			<option value="noctilien" <?php echo ($BusRatp->type=='noctilien') ? 'selected' : ''; ?>>Noctilien</option>
 		</select>
 
-		<input type="number" name="line" value="<?php echo $BusRatp->line; ?>" onblur="this.form.submit();" autocomplete="off" step="1" min="1">
+		<input id="input_line" type="number" name="line" value="<?php echo $BusRatp->line; ?>" autocomplete="off" step="1" min="1">
+
+		
 
 		<?php if(!empty($BusRatp->directions)): ?>
-		<select name="stop" onchange="this.form.submit();" class="large">
+		<select id="select_stop" name="stop" onchange="this.form.submit();" class="large">
 			<?php foreach($BusRatp->stops as $k=>$v): ?>
 			<option value="<?php echo $k; ?>" <?php echo ($BusRatp->stop==$k) ? 'selected' : ''; ?>><?php echo $v; ?></option>
 			<?php endforeach; ?>
