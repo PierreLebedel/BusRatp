@@ -38,8 +38,8 @@ $BusRatp = new BusRatp($type, $line, $stop);
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>BusRATP : Les horaires en temps réel à votre station !</title>
-	<meta name="viewport" content="width=device-width, initial-slace=1.0, user-scalable=no">
+	<title>BusRATP : Les horaires de <?php echo $BusRatp->type; ?> de la ligne <?php echo $BusRatp->line; ?> en temps réel à <?php echo($stop)?'la station '.$BusRatp->stop_display:'votre station !'; ?></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
 	<link rel="icon" href="favicon.ico" />
 	<meta name="description" content="Les horaires des bus RATP en temps réel à votre station !" />
@@ -135,38 +135,42 @@ $BusRatp = new BusRatp($type, $line, $stop);
 		</div>
 	</form>
 	
-	<div class="wrap">
-		<?php if(!empty($BusRatp->directions)): ?>
-		<div id="result">
+	<div id="content">
+		<div id="content_inner" class="wrap">
+			<?php if(!empty($BusRatp->directions)): ?>
+			<div id="result">
+				
+				<h2><b><?php echo $BusRatp->type_display; ?> <?php echo $BusRatp->line_display; ?></b> - <?php echo $BusRatp->stop_display; ?></h2>
 			
-			<h2><b><?php echo $BusRatp->type_display; ?> <?php echo $BusRatp->line_display; ?></b> - <?php echo $BusRatp->stop_display; ?></h2>
-		
-			<?php foreach($BusRatp->directions as $direction): ?>
-				<div class="direction">
-					<h3>Direction<?php echo $direction->direction; ?></h3>
-					<?php foreach($direction->stops as $stop): ?>
-						<div class="stop">
-							<?php echo $stop->terminus; ?>&nbsp;: 
-							<strong><?php echo $stop->timeout; ?></strong>
-						</div>
-					<?php endforeach; ?>
-				</div>
-			<?php endforeach; ?>
+				<?php $i=0; foreach($BusRatp->directions as $direction): $i++; ?>
+					<div class="direction i<?php echo $i; ?>">
+						<h3>Direction<?php echo $direction->direction; ?></h3>
+						<?php foreach($direction->stops as $stop): ?>
+							<div class="stop">
+								<?php echo $stop->terminus; ?>&nbsp;: 
+								<strong><?php echo $stop->timeout; ?></strong>
+							</div>
+						<?php endforeach; ?>
+					</div>
+				<?php endforeach; ?>
 
-			<!--pre><?php print_r($BusRatp); ?></pre-->
+				<?php /*<pre><?php print_r($BusRatp); ?></pre> */ ?>
+			</div>
+			<?php else: ?>
+			<div id="error">
+				<?php echo $BusRatp->error; ?>
+			</div>
+			<?php endif; ?>
 		</div>
-		<?php else: ?>
-		<div id="error">
-			<?php echo $BusRatp->error; ?>
-		</div>
-		<?php endif; ?>
+	</div>
 
+	<div class="wrap">
 		<a href="#" id="refresh">Actualiser</a>
 	</div>
 
 	<footer id="footer">
 		<p>BusRATP - <?php echo date('Y'); ?> - <a href="http://www.pierros.fr" target="_blank">Pierre Lebedel</a></p>
-		<p>Sources sur <a href="https://github.com/PierreLebedel/BusRatp" target="_blank">Github</a> - Icons by <a href="http://www.freepik.com" target="_blank">Freepik</a></p>
+		<p>Sources sur <a href="https://github.com/PierreLebedel/BusRatp" target="_blank">Github</a> - Icônes par <a href="http://www.freepik.com" target="_blank">Freepik</a></p>
 	</footer>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
