@@ -42,7 +42,7 @@ handleVisibilityChange();
 
 var autoTimeout = false;
 var autoTimeoutEven = false;
-var autoTimeoutDuration = 5000;
+var autoTimeoutDuration = 20000;
 
 var $loader = $('#loader');
 
