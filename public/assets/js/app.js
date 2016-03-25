@@ -8,19 +8,41 @@ var loadBusRatp = function(ajaxUrl, callback){
 }
 
 
-var isWindowActive;
-window.onfocus = function(){ 
-	isWindowActive = true; 
-}; 
+var isWindowActive = true;
 
-window.onblur = function(){ 
-	isWindowActive = false; 
-}; 
+function handleVisibilityChange() {
+	if(document.hidden){
+		isWindowActive = false;
+	} else {
+		isWindowActive = true;
+	}
+}
+
+var browserPrefixes = ['moz', 'ms', 'o', 'webkit'];
+function getHiddenPropertyName(prefix){
+	return (prefix ? prefix + 'Hidden' : 'hidden');
+}
+function getVisibilityEvent(prefix){
+	return (prefix ? prefix : '') + 'visibilitychange';
+}
+function getBrowserPrefix(){
+	for(var i=0; i<browserPrefixes.length; i++){
+		if(getHiddenPropertyName(browserPrefixes[i]) in document){
+			return browserPrefixes[i];
+		}
+	}
+	return null;
+}
+var browserPrefix = getBrowserPrefix();
+
+document.addEventListener(getVisibilityEvent(browserPrefix), handleVisibilityChange, false);
+handleVisibilityChange();
+
 
 
 var autoTimeout = false;
 var autoTimeoutEven = false;
-var autoTimeoutDuration = 20000;
+var autoTimeoutDuration = 5000;
 
 var $loader = $('#loader');
 
@@ -35,13 +57,13 @@ var autorefreshBusRatp = function(){
 
 	if(autoTimeoutEven){
 		autoTimeoutEven = false;
-		$loader.css({left:'auto', right:0});
+		$loader.css({left:'auto', right:0, width:'100%'});
 		$loader.animate({
 			width:'0%'
 		}, autoTimeoutDuration, 'linear');
 	}else{
 		autoTimeoutEven = true;
-		$loader.css({left:0, right:'auto'});
+		$loader.css({left:0, right:'auto', width:'0%'});
 		$loader.animate({
 			width:'100%'
 		}, autoTimeoutDuration, 'linear');
