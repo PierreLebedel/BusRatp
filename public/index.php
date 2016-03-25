@@ -173,6 +173,17 @@ $BusRatp = new BusRatp($type, $line, $stop);
 		<p>Sources sur <a href="https://github.com/PierreLebedel/BusRatp" target="_blank">Github</a> - Icônes par <a href="http://www.freepik.com" target="_blank">Freepik</a></p>
 	</footer>
 	
+	<?php if( !strstr($_SERVER['REQUEST_URI'], 'BusRatp/public') ): ?>
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-75621003-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<?php endif; ?>
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 	<script src="assets/js/app.js" type="text/javascript"></script>
 </body>
