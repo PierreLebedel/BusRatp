@@ -114,6 +114,7 @@ $BusRatp = new BusRatp($type, $line, $stop);
 
 			<h1><b>Bus</b>RATP</h1>
 		</path>
+		<div id="loader"></div>
 	</header>
 
 	<form id="form" action="" method="get">
